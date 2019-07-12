@@ -1,26 +1,21 @@
 <template>
     <div>
-        <button :class="{active: filter == 'all'}" 
-        @click="changeFilter('all')">All</button>
-        <button :class="{active: filter == 'active'}" 
-        @click="changeFilter('active')">Active</button>
-        <button :class="{active: filter == 'completed'}" 
-        @click="changeFilter('completed')">Completed</button>
+        <button v-if="showClearCompletedButton" 
+        @click="clearCompleted">Clear completed</button>
     </div>
 </template>
 
 <script>
 export default {
-    name: 'todo-filtered',
-    data(){
-        return {
-            'filter': 'all',
+    name: 'todo-clear-completed',
+    computed: {
+        showClearCompletedButton() {
+            return this.$store.getters.showClearCompletedButton
         }
     },
     methods: {
-        changeFilter(filter){
-            this.filter = filter
-            eventBus.$emit('filterChanged', filter)
+        clearCompleted(){
+            this.$store.commit('clearCompleted')
         }
     }
 }
